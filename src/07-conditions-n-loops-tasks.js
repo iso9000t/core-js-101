@@ -454,8 +454,17 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const resultRows = Array.from({ length: m1.length }, () => 0);
+  const result = resultRows.map(() => Array.from({ length: m2[0].length }, () => 0));
+
+  return result.map((row, i) => {
+    const resultRow = row.map((val, j) => {
+      const sum = m1[i].reduce((accum, elm, k) => accum + elm * m2[k][j], 0);
+      return sum;
+    });
+    return resultRow;
+  });
 }
 
 
@@ -489,8 +498,62 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const winningLines = [
+    [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+    ], // Top row
+    [
+      [1, 0],
+      [1, 1],
+      [1, 2],
+    ], // Middle row
+    [
+      [2, 0],
+      [2, 1],
+      [2, 2],
+    ], // Bottom row
+    [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+    ], // Left column
+    [
+      [0, 1],
+      [1, 1],
+      [2, 1],
+    ], // Middle column
+    [
+      [0, 2],
+      [1, 2],
+      [2, 2],
+    ], // Right column
+    [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+    ], // Diagonal from top-left to bottom-right
+    [
+      [0, 2],
+      [1, 1],
+      [2, 0],
+    ], // Diagonal from top-right to bottom-left
+  ];
+
+  for (let i = 0; i < winningLines.length; i += 1) {
+    const [[x1, y1], [x2, y2], [x3, y3]] = winningLines[i];
+    if (
+      position[x1][y1]
+      && position[x1][y1] === position[x2][y2]
+      && position[x1][y1] === position[x3][y3]
+    ) {
+      return position[x1][y1];
+    }
+  }
+
+  return undefined;
 }
 
 
